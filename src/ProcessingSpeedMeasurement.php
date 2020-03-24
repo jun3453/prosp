@@ -1,17 +1,26 @@
 <?php
 
-namespace prosp;
+namespace jun3453\prosp;
 
 /**
  * Class ProcessingSpeedMeasurement
- * @package prosp
+ * @package jun3453\prosp
  */
 class ProcessingSpeedMeasurement
 {
+	/**
+	 * @var array [context: string => ms: double]
+	 */
 	private static $startProcessingTimes = [];
 
+	/**
+	 * @var array [context: string [count: int] => ms: double]
+	 */
 	private static $processingTimes = [];
 
+	/**
+	 * @var array [context: string => count: int]
+	 */
 	private static $processingCount = [];
 
 	/**
@@ -44,7 +53,7 @@ class ProcessingSpeedMeasurement
 	}
 
 	/**
-	 * @return array
+	 * @return array [context: string => {processTimes: float, totalRounds: int} ]
 	 */
 	public static function getAllProcessingResults(): array
 	{
@@ -60,7 +69,7 @@ class ProcessingSpeedMeasurement
 
 	/**
 	 * @param string $context
-	 * @return array
+	 * @return array {processTimes: float, totalRounds: int}
 	 */
 	public static function getProcessingResultByContext(string $context): array
 	{
@@ -72,7 +81,7 @@ class ProcessingSpeedMeasurement
 
 	/**
 	 * @param float $ms
-	 * @return array
+	 * @return array [context: string => [{processTimes: float, rounds: int}] ]
 	 */
 	public static function getResultsLongerThanSpecifiedMs(float $ms): array
 	{
@@ -88,8 +97,36 @@ class ProcessingSpeedMeasurement
 					];
 				}
 			}
-
 		}
 		return $result;
+	}
+
+	/**
+	 * @param float $ms
+	 * @return array [context: string => [{processTimes: float, rounds: int}] ]
+	 */
+	public static function getResultsShorterThanSpecifiedMs(float $ms): array
+	{
+		$result = [];
+		foreach (array_keys(self::$processingTimes) as $context) {
+			$round = 0;
+			foreach (self::$processingTimes[$context] as $processingTime) {
+				$round++;
+				if ($processingTime < $ms) {
+					$result[$context][] = [
+						'processTimes'  => $processingTime,
+						'rounds' => $round
+					];
+				}
+			}
+		}
+		return $result;
+	}
+
+	public static function reset()
+	{
+		static::$startProcessingTimes = [];
+		static::$processingTimes = [];
+		static::$processingCount = [];
 	}
 }
