@@ -31,5 +31,6 @@
     "psr-4": {
       "jun3453\\prosp\\": "tests/"
     }
-  }
+  },
+  "minimum-stability": "stable"
 }
