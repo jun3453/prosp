@@ -1,0 +1,35 @@
+{
+  "name": "jun3453/prosp",
+  "description": "Processing speed measurement library for PHP.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "jun3453",
+      "email": "jun34530811@gmail.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/jun3453/prosp.git",
+      "no-api": true
+    }
+  ],
+  "require": {
+    "php": ">=7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "jun3453\\prosp\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "jun3453\\prosp\\": "tests/"
+    }
+  }
+}
